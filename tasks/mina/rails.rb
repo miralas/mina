@@ -33,13 +33,13 @@ namespace :rails do
     ensure!(:deploy_block, message: "Can't be run outside deploy do block. Please use mina 'rake[db_migrate]' instead")
     if fetch(:force_migrate)
       comment %{Migrating database}
-      command %{#{fetch(:rake)} db:migrate}
+      command %{#{fetch(:rake)} db:migrate:primary}
     else
       command check_for_changes_script(
         at: fetch(:migration_dirs),
         skip: %{echo "-----> DB migrations unchanged; skipping DB migration"},
         changed: %{echo "-----> Migrating database"
-          #{echo_cmd("#{fetch(:rake)} db:migrate")}}
+          #{echo_cmd("#{fetch(:rake)} db:migrate:primary")}}
       ), quiet: true
     end
   end
